@@ -1,0 +1,21 @@
+{
+  "name": "create-express-with-superpowers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "generate.sh",
+  "bin": "generate.sh",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonrenoult/create-exoress-with-superpowers.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simonrenoult/create-exoress-with-superpowers/issues"
+  },
+  "homepage": "https://github.com/simonrenoult/create-exoress-with-superpowers#readme"
+}
