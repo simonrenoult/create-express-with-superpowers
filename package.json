@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "generate.sh",
-  "bin": "generate.sh",
+  "bin": {
+    "create-express-with-superpowers": "./generate.sh"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
