@@ -1,23 +1,37 @@
 {
   "name": "create-express-with-superpowers",
-  "version": "1.0.2",
-  "description": "",
-  "main": "generate.sh",
+  "version": "1.0.3",
+  "description": "Generator for express-with-superpowers.",
+  "main": "generate.js",
   "bin": {
-    "create-express-with-superpowers": "./generate.sh"
+    "create-express-with-superpowers": "./generate.js"
+  },
+  "author": "Simon Renoult <simon.renoult@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "express",
+    "plugin",
+    "plugins",
+    "preset"
+  ],
+  "engines": {
+    "node": ">= 10.10.0",
+    "npm": ">= 6.4.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/simonrenoult/create-exoress-with-superpowers.git"
+  "dependencies": {
+    "commander": "2.18.0",
+    "minimist": "^1.2.0"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/simonrenoult/create-exoress-with-superpowers/issues"
-  },
-  "homepage": "https://github.com/simonrenoult/create-exoress-with-superpowers#readme"
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-config-prettier": "3.0.1",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-prettier": "2.6.2",
+    "prettier": "1.14.2",
+    "yargs": "^12.0.2"
+  }
 }

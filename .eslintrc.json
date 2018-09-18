@@ -1,0 +1,18 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 9
+  },
+  "rules": {
+    "no-console": "warn",
+    "no-use-before-define": "off"
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "mocha": true,
+    "es6": true,
+    "node": true
+  }
+}
