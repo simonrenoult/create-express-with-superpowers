@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 
-const { exec } = require("child_process");
-const { promisify } = require("util");
+const { execSync } = require("child_process");
 
-const execAsync = promisify(exec);
 const DEFAULT_PROJECT_NAME = "express-with-superpowers";
 
 main()
@@ -17,8 +15,8 @@ main()
 async function main() {
   const projectLocation = getProjectLocation();
 
-  await cloneTemplate(projectLocation);
-  await cleanUp(projectLocation);
+  cloneTemplate(projectLocation);
+  cleanUp(projectLocation);
 
   return projectLocation;
 }
@@ -29,14 +27,14 @@ function getProjectLocation() {
   return projectLocation || DEFAULT_PROJECT_NAME;
 }
 
-async function cloneTemplate(projectLocation) {
+function cloneTemplate(projectLocation) {
   log("Getting superpowers...");
   const cmd = `git clone git@github.com:simonrenoult/express-with-superpowers.git ${projectLocation}`;
-  await execAsync(cmd);
+  execSync(cmd);
   log("Done!");
 }
 
-async function cleanUp(projectLocation) {
+function cleanUp(projectLocation) {
   const cmd = [
     `cd ${projectLocation}`,
     "rm -rf .git",
@@ -44,7 +42,7 @@ async function cleanUp(projectLocation) {
     "git add --all",
     "git commit --message='Initial commit'"
   ].join(" && ");
-  await execAsync(cmd);
+  execSync(cmd);
 }
 
 function log(stuff) {
