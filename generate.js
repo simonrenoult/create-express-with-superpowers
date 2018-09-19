@@ -1,40 +1,44 @@
-#!/usr/bin/env node
 const { exec } = require("child_process");
+const { promisify } = require("util");
 
-const [projectLocation] = process.argv.slice(2);
+const execAsync = promisify(exec);
 
-console.log("> Pulling project from simonrenoult/express-with-superpowers...");
-exec(
-  `git clone git@github.com:simonrenoult/express-with-superpowers.git ${projectLocation}`,
-  (err, stdout, stderr) => {
-    if (err) stop(err);
-    if (stderr) stop(err);
-    if (stdout) console.log(stdout);
-    console.log("> Done!");
-  }
-);
+main()
+  .then(projectLocation => {
+    console.log(
+      `> All good, your superpowers are available at "${projectLocation}"`
+    );
+  })
+  .catch(err => {
+    console.error("> An error occurred: ", err);
+  });
 
-function stop(err) {
-  console.log("> Failed!");
-  console.error(err);
-  process.exit(1);
+async function main() {
+  const projectLocation = getProjectLocation();
+  await cloneTemplate(projectLocation);
+  await cleanUp(projectLocation);
+  return projectLocation;
 }
 
-/*
-const pkg = require("./package");
+function getProjectLocation() {
+  const args = process.argv.slice(2);
+  return args[0] || "express-with-superpowers";
+}
 
-let projectName;
-program
-  .version(pkg.version)
-  .arguments("<name>")
-  .action(name => {
-    projectName = name;
-  })
-  .parse(process.argv);
+async function cloneTemplate(projectLocation) {
+  console.log("> Getting superpowers...");
+  const cmd = `git clone git@github.com:simonrenoult/express-with-superpowers.git ${projectLocation}`;
+  await execAsync(cmd);
+  console.log("> Done!");
+}
 
-console.log(projectName);
-git clone git@github.com:simonrenoult/express-with-superpowers.git
-cd ./foobar
-rm -rf .git
-git init && git add --all && git commit --message="Initial commit"
-*/
+async function cleanUp(projectLocation) {
+  const commands = [
+    `cd ${projectLocation}`,
+    "rm -rf .git",
+    "git init",
+    "git add --all",
+    "git commit --message='Initial commit'"
+  ];
+  await execAsync(commands.join(" && "));
+}
