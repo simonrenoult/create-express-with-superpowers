@@ -8,9 +8,7 @@ const DEFAULT_PROJECT_NAME = "express-with-superpowers";
 
 main()
   .then(projectLocation => {
-    console.log(
-      `> All good, your superpowers are available in "${projectLocation}"`
-    );
+    log(`All good, your superpowers are available in "${projectLocation}"`);
   })
   .catch(err => {
     console.error("> An error occurred: ", err);
@@ -31,10 +29,10 @@ function getProjectLocation() {
 }
 
 async function cloneTemplate(projectLocation) {
-  console.log("> Getting superpowers...");
+  log("Getting superpowers...");
   const cmd = `git clone git@github.com:simonrenoult/express-with-superpowers.git ${projectLocation}`;
   await execAsync(cmd);
-  console.log("> Done!");
+  log("Done!");
 }
 
 async function cleanUp(projectLocation) {
@@ -46,4 +44,8 @@ async function cleanUp(projectLocation) {
     "git commit --message='Initial commit'"
   ].join(" && ");
   await execAsync(cmd);
+}
+
+function log(stuff) {
+  console.log(`> ${stuff}`);
 }
