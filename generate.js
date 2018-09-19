@@ -3,7 +3,9 @@
 const { execSync } = require("child_process");
 const { readFileSync, writeFileSync } = require("fs");
 
+const CUSTOM_ARGS_START_INDEX = 2;
 const DEFAULT_PROJECT_NAME = "express-with-superpowers";
+const TEMPLATE_REPOSITORY = "simonrenoult/express-with-superpowers";
 
 main()
   .then(projectLocation => {
@@ -24,14 +26,13 @@ async function main() {
 }
 
 function getProjectLocation() {
-  const CUSTOM_ARGS_START_INDEX = 2;
   const [projectLocation] = process.argv.slice(CUSTOM_ARGS_START_INDEX);
   return projectLocation || DEFAULT_PROJECT_NAME;
 }
 
 function cloneTemplate(projectLocation) {
   log("Getting superpowers...");
-  const cmd = `git clone git@github.com:simonrenoult/express-with-superpowers.git ${projectLocation}`;
+  const cmd = `git clone git@github.com:${TEMPLATE_REPOSITORY}.git ${projectLocation}`;
   execSync(cmd);
   log("Done!");
 }
