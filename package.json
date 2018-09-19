@@ -1,6 +1,6 @@
 {
   "name": "create-express-with-superpowers",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Generator for express-with-superpowers.",
   "main": "generate.js",
   "bin": {
@@ -21,8 +21,7 @@
   "scripts": {
     "lint": "eslint ."
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "5.6.0",
     "eslint-config-airbnb-base": "13.1.0",
