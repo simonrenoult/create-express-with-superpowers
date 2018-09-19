@@ -8,17 +8,17 @@ Usage
 
 Using `npm init` (recommended):
 ```bash
-$ npm init express-with-superpowers ./example
+$ npm init express-with-superpowers ./example && cd ./example
 ```
 
 Using `npx`:
 ```bash
-$ npx create-express-with-superpowers ./example
+$ npx create-express-with-superpowers ./example && cd ./example
 ```
 
 Using `generate.sh`:
 ```
-$ node generate.js ./example
+$ ./generate.js ../example && cd ../example
 ```
 
 

@@ -17,8 +17,10 @@ main()
 
 async function main() {
   const projectLocation = getProjectLocation();
+
   await cloneTemplate(projectLocation);
   await cleanUp(projectLocation);
+
   return projectLocation;
 }
 
