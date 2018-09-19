@@ -8,7 +8,7 @@ const execAsync = promisify(exec);
 main()
   .then(projectLocation => {
     console.log(
-      `> All good, your superpowers are available at "${projectLocation}"`
+      `> All good, your superpowers are available in directory "${projectLocation}"`
     );
   })
   .catch(err => {
