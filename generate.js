@@ -25,8 +25,8 @@ async function main() {
 }
 
 function getProjectLocation() {
-  const args = process.argv.slice(2);
-  return args[0] || "express-with-superpowers";
+  const [projectLocation] = process.argv.slice(2);
+  return projectLocation || "express-with-superpowers";
 }
 
 async function cloneTemplate(projectLocation) {
