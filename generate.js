@@ -4,11 +4,12 @@ const { exec } = require("child_process");
 const { promisify } = require("util");
 
 const execAsync = promisify(exec);
+const DEFAULT_PROJECT_NAME = "express-with-superpowers";
 
 main()
   .then(projectLocation => {
     console.log(
-      `> All good, your superpowers are available in directory "${projectLocation}"`
+      `> All good, your superpowers are available in "${projectLocation}"`
     );
   })
   .catch(err => {
@@ -26,7 +27,7 @@ async function main() {
 
 function getProjectLocation() {
   const [projectLocation] = process.argv.slice(2);
-  return projectLocation || "express-with-superpowers";
+  return projectLocation || DEFAULT_PROJECT_NAME;
 }
 
 async function cloneTemplate(projectLocation) {
@@ -37,12 +38,12 @@ async function cloneTemplate(projectLocation) {
 }
 
 async function cleanUp(projectLocation) {
-  const commands = [
+  const cmd = [
     `cd ${projectLocation}`,
     "rm -rf .git",
     "git init",
     "git add --all",
     "git commit --message='Initial commit'"
-  ];
-  await execAsync(commands.join(" && "));
+  ].join(" && ");
+  await execAsync(cmd);
 }
