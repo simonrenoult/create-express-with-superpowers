@@ -47,5 +47,6 @@ async function cleanUp(projectLocation) {
 }
 
 function log(stuff) {
+  // eslint-disable-next-line no-console
   console.log(`> ${stuff}`);
 }
