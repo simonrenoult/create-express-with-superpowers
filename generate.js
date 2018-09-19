@@ -24,7 +24,8 @@ async function main() {
 }
 
 function getProjectLocation() {
-  const [projectLocation] = process.argv.slice(2);
+  const CUSTOM_ARGS_START_INDEX = 2;
+  const [projectLocation] = process.argv.slice(CUSTOM_ARGS_START_INDEX);
   return projectLocation || DEFAULT_PROJECT_NAME;
 }
 
