@@ -33,5 +33,12 @@
   },
   "dependencies": {
     "commander": "2.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simonrenoult/create-express-with-superpowers"
+  },
+  "bugs": {
+    "url": "https://github.com/simonrenoult/create-express-with-superpowers/issues"
   }
 }
