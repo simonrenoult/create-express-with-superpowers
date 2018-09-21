@@ -84,11 +84,7 @@ function customizePackageJson(projectLocation, author, description, keywords) {
     keywords: keywords || []
   };
 
-  writeFileSync(
-    `${projectLocation}/${FILE_NAME}`,
-    JSON.stringify(newPkgJson, null, "  "),
-    "utf8"
-  );
+  writeFileSync(pathToFile, JSON.stringify(newPkgJson, null, "  "), "utf8");
 }
 
 function replaceReadme(projectLocation, author, description) {
@@ -105,7 +101,7 @@ function replaceReadme(projectLocation, author, description) {
     ["## License", "See license.txt"].join("\n")
   ].join("\n\n");
 
-  writeFileSync(`${projectLocation}/${FILE_NAME}`, newReadme, "utf8");
+  writeFileSync(pathToFile, newReadme, "utf8");
 }
 
 function updateLicense(projectLocation, author) {
@@ -116,7 +112,7 @@ function updateLicense(projectLocation, author) {
   const currentLicense = readFileSync(pathToFile, "utf8");
   const newLicense = currentLicense.replace(DEFAULT_AUTHOR_IN_LICENSE, author);
 
-  writeFileSync(`${projectLocation}/${FILE_NAME}`, newLicense, "utf8");
+  writeFileSync(pathToFile, newLicense, "utf8");
 }
 
 function finalize(projectLocation) {
