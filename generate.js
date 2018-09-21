@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const { execSync } = require("child_process");
-const { readFileSync, writeFileSync } = require("fs");
+const { existsSync, readFileSync, writeFileSync } = require("fs");
 const { resolve } = require("path");
 const { parseArgs } = require("./cli");
 
@@ -13,6 +13,11 @@ const program = parseArgs(process.argv);
 if (noArgumentsProvided(process.argv)) {
   program.outputHelp();
   process.exit(0);
+}
+
+if (existsSync(program.projectLocation)) {
+  console.error(`> The directory "${program.projectLocation}" already exists!`);
+  process.exit(1);
 }
 
 generateNewProject(program)
