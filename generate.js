@@ -32,8 +32,10 @@ function getProjectLocation() {
 
 function cloneTemplate(projectLocation) {
   log("Getting superpowers...");
+
   const cmd = `git clone git@github.com:${TEMPLATE_REPOSITORY}.git ${projectLocation}`;
   execSync(cmd);
+
   log("Done!");
 }
 
@@ -41,7 +43,7 @@ function customize(projectLocation) {
   log("Putting cape on...");
 
   const author = getAuthor();
-  customizePackageJson(projectLocation, author);
+  customizePkgJson(projectLocation, author);
   replaceReadme(projectLocation, author);
   updateLicense(projectLocation, author);
 
@@ -55,13 +57,14 @@ function getAuthor() {
   return `${authorName} <${authorEmail}>`;
 }
 
-function customizePackageJson(projectLocation, author) {
-  const rawPkg = readFileSync(`${projectLocation}/package.json`, "utf8");
-  const pkg = JSON.parse(rawPkg);
+function customizePkgJson(projectLocation, author) {
+  const FILE_NAME = "package.json";
+  const rawPkg = readFileSync(`${projectLocation}/${FILE_NAME}`, "utf8");
+  const pkgJsonToEdit = JSON.parse(rawPkg);
 
   const [projectName] = projectLocation.split("/").slice(-1);
-  const newPkg = {
-    ...pkg,
+  const newPkgJson = {
+    ...pkgJsonToEdit,
     name: projectName,
     version: "0.0.1",
     description: "",
@@ -70,14 +73,15 @@ function customizePackageJson(projectLocation, author) {
   };
 
   writeFileSync(
-    `${projectLocation}/package.json`,
-    JSON.stringify(newPkg, null, "  "),
+    `${projectLocation}/${FILE_NAME}`,
+    JSON.stringify(newPkgJson, null, "  "),
     "utf8"
   );
 }
 
 function replaceReadme(projectLocation, author) {
-  execSync(`rm ${projectLocation}/readme.md`, "utf8");
+  const FILE_NAME = "readme.md";
+  execSync(`rm ${projectLocation}/${FILE_NAME}`, "utf8");
 
   const [projectName] = projectLocation.split("/").slice(-1);
   const newReadme = [
@@ -87,13 +91,16 @@ function replaceReadme(projectLocation, author) {
     ["## License", "See license.txt"].join("\n")
   ].join("\n\n");
 
-  writeFileSync(`${projectLocation}/readme.md`, newReadme, "utf8");
+  writeFileSync(`${projectLocation}/${FILE_NAME}`, newReadme, "utf8");
 }
 
 function updateLicense(projectLocation, author) {
-  const license = readFileSync(`${projectLocation}/license.txt`, "utf8");
+  const FILE_NAME = "license.txt";
+  const license = readFileSync(`${projectLocation}/${FILE_NAME}`, "utf8");
+
   const newLicense = license.replace("Simon Renoult", author);
-  writeFileSync(`${projectLocation}/license.txt`, newLicense, "utf8");
+
+  writeFileSync(`${projectLocation}/${FILE_NAME}`, newLicense, "utf8");
 }
 
 function cleanUp(projectLocation) {
