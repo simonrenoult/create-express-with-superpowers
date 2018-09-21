@@ -14,11 +14,11 @@ function parseArgs(args) {
     .action(projectLocationArg => {
       projectLocation = projectLocationArg || DEFAULT_PROJECT_NAME;
     })
-    .option("-D, --description [description]", "Add a description")
-    .option("-A, --author [author]", "Add an author")
+    .option("-D, --description [description]", "add a description")
+    .option("-A, --author [author]", "add an author")
     .option(
       "-K, --keywords <keywords>",
-      "A list of keywords (ex: foo,bar,baz)",
+      "a list of keywords (ex: foo,bar,baz)",
       parseKeyworkds
     )
     .parse(args);
