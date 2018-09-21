@@ -33,7 +33,7 @@ async function generateNewProject(newProjectData) {
     newProjectData.description,
     newProjectData.keywords
   );
-  cleanUp(newProjectData.projectLocation);
+  finalize(newProjectData.projectLocation);
 }
 
 function pullRemoteTemplate(projectLocation) {
@@ -105,24 +105,27 @@ function replaceReadme(projectLocation, author, description) {
 
 function updateLicense(projectLocation, author) {
   const FILE_NAME = "license.txt";
+  const DEFAULT_AUTHOR_IN_LICENSE = "Simon Renoult";
   const pathToFile = resolve(projectLocation, FILE_NAME);
 
-  const license = readFileSync(pathToFile, "utf8");
-
-  const newLicense = license.replace("Simon Renoult", author);
+  const currentLicense = readFileSync(pathToFile, "utf8");
+  const newLicense = currentLicense.replace(DEFAULT_AUTHOR_IN_LICENSE, author);
 
   writeFileSync(`${projectLocation}/${FILE_NAME}`, newLicense, "utf8");
 }
 
-function cleanUp(projectLocation) {
-  const cmd = [
+function finalize(projectLocation) {
+  const cmd1 = [`cd ${projectLocation}`, "npm install"].join(" && ");
+  execSync(cmd1);
+
+  const cmd2 = [
     `cd ${projectLocation}`,
     "rm -rf .git",
     "git init",
     "git add --all",
     "git commit --message='Initial commit'"
   ].join(" && ");
-  execSync(cmd);
+  execSync(cmd2);
 }
 
 function log(stuff) {
