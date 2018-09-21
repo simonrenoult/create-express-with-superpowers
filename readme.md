@@ -10,7 +10,22 @@ Usage
 $ npm init express-with-superpowers ./example && cd ./example
 ```
 
-Content
+
+CLI
+---
+```
+Usage: npm init express-with-superpowers [options] <project-location>
+
+Options:
+
+  -V, --version                    output the version number
+  -D, --description [description]  add a description
+  -A, --author [author]            add an author
+  -K, --keywords <keywords>        a list of keywords (ex: foo,bar,baz)
+  -h, --help                       output usage information
+```
+
+Content generated
 ---
 ```
 ├── bin
