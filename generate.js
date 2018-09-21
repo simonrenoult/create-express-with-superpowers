@@ -2,35 +2,41 @@
 
 const { execSync } = require("child_process");
 const { readFileSync, writeFileSync } = require("fs");
+const { resolve } = require("path");
+const { parseArgs } = require("./cli");
 
 const CUSTOM_ARGS_START_INDEX = 2;
-const DEFAULT_PROJECT_NAME = "express-with-superpowers";
 const TEMPLATE_REPOSITORY = "simonrenoult/express-with-superpowers";
 
-main()
-  .then(projectLocation => {
-    log(`All good, your superpowers are available in "${projectLocation}"`);
+const program = parseArgs(process.argv);
+
+if (noArgumentsProvided(process.argv)) {
+  program.outputHelp();
+  process.exit(0);
+}
+
+generateNewProject(program)
+  .then(() => {
+    log(
+      `All good, your superpowers are available in "${program.projectLocation}"`
+    );
   })
   .catch(err => {
     console.error("> An error occurred: ", err);
   });
 
-async function main() {
-  const projectLocation = getProjectLocation();
-
-  cloneTemplate(projectLocation);
-  customize(projectLocation);
-  cleanUp(projectLocation);
-
-  return projectLocation;
+async function generateNewProject(newProjectData) {
+  pullRemoteTemplate(newProjectData.projectLocation);
+  customizeTemplate(
+    newProjectData.projectLocation,
+    newProjectData.author,
+    newProjectData.description,
+    newProjectData.keywords
+  );
+  cleanUp(newProjectData.projectLocation);
 }
 
-function getProjectLocation() {
-  const [projectLocation] = process.argv.slice(CUSTOM_ARGS_START_INDEX);
-  return projectLocation || DEFAULT_PROJECT_NAME;
-}
-
-function cloneTemplate(projectLocation) {
+function pullRemoteTemplate(projectLocation) {
   log("Getting superpowers...");
 
   const cmd = `git clone git@github.com:${TEMPLATE_REPOSITORY}.git ${projectLocation}`;
@@ -39,13 +45,13 @@ function cloneTemplate(projectLocation) {
   log("Done!");
 }
 
-function customize(projectLocation) {
+function customizeTemplate(projectLocation, author, description, keywords) {
   log("Putting cape on...");
 
-  const author = getAuthor();
-  customizePkgJson(projectLocation, author);
-  replaceReadme(projectLocation, author);
-  updateLicense(projectLocation, author);
+  const projectAuthor = author || getAuthor();
+  customizePackageJson(projectLocation, projectAuthor, description, keywords);
+  replaceReadme(projectLocation, projectAuthor, description);
+  updateLicense(projectLocation, projectAuthor);
 
   log("Done!");
 }
@@ -57,9 +63,10 @@ function getAuthor() {
   return `${authorName} <${authorEmail}>`;
 }
 
-function customizePkgJson(projectLocation, author) {
+function customizePackageJson(projectLocation, author, description, keywords) {
   const FILE_NAME = "package.json";
-  const rawPkg = readFileSync(`${projectLocation}/${FILE_NAME}`, "utf8");
+  const pathToFile = resolve(projectLocation, FILE_NAME);
+  const rawPkg = readFileSync(pathToFile, "utf8");
   const pkgJsonToEdit = JSON.parse(rawPkg);
 
   const [projectName] = projectLocation.split("/").slice(-1);
@@ -67,9 +74,9 @@ function customizePkgJson(projectLocation, author) {
     ...pkgJsonToEdit,
     name: projectName,
     version: "0.0.1",
-    description: "",
+    description: description || "",
     author,
-    keywords: []
+    keywords: keywords || []
   };
 
   writeFileSync(
@@ -79,13 +86,15 @@ function customizePkgJson(projectLocation, author) {
   );
 }
 
-function replaceReadme(projectLocation, author) {
+function replaceReadme(projectLocation, author, description) {
   const FILE_NAME = "readme.md";
-  execSync(`rm ${projectLocation}/${FILE_NAME}`, "utf8");
+  const pathToFile = resolve(projectLocation, FILE_NAME);
+
+  execSync(`rm ${pathToFile}`, "utf8");
 
   const [projectName] = projectLocation.split("/").slice(-1);
   const newReadme = [
-    [`# ${projectName}`, "> ..."].join("\n"),
+    [`# ${projectName}`, `> ${description}`].join("\n"),
     ["## Usage", "```", "$ npm start", "```"].join("\n"),
     ["## Created by", author].join("\n"),
     ["## License", "See license.txt"].join("\n")
@@ -96,7 +105,9 @@ function replaceReadme(projectLocation, author) {
 
 function updateLicense(projectLocation, author) {
   const FILE_NAME = "license.txt";
-  const license = readFileSync(`${projectLocation}/${FILE_NAME}`, "utf8");
+  const pathToFile = resolve(projectLocation, FILE_NAME);
+
+  const license = readFileSync(pathToFile, "utf8");
 
   const newLicense = license.replace("Simon Renoult", author);
 
@@ -117,4 +128,8 @@ function cleanUp(projectLocation) {
 function log(stuff) {
   // eslint-disable-next-line no-console
   console.log(`> ${stuff}`);
+}
+
+function noArgumentsProvided(args) {
+  return args.slice(CUSTOM_ARGS_START_INDEX).length === 0;
 }
