@@ -8,7 +8,7 @@ const { parseArgs } = require("./cli");
 const CUSTOM_ARGS_START_INDEX = 2;
 const TEMPLATE_REPOSITORY = "simonrenoult/express-with-superpowers";
 
-const program = parseArgs(process.argv);
+const program = parseArgs(process.argv)
 
 if (noArgumentsProvided(process.argv)) {
   program.outputHelp();
