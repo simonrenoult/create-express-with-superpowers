@@ -21,6 +21,7 @@
     "npm": ">= 6.4.0"
   },
   "scripts": {
+    "test": "npm run lint",
     "lint": "eslint ."
   },
   "devDependencies": {
