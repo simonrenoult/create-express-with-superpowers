@@ -28,6 +28,11 @@ Options:
 Content generated
 ---
 ```
+├── .editorconfig
+├── .eslintrc.json
+├── .gitignore
+├── .npmrc
+├── .travis.yml
 ├── bin
 │   ├── start.js
 │   └── stop.js
