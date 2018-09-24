@@ -3,6 +3,15 @@ Create Express With Superpowers
 
 > Generate a new project based on [express-with-superpowers](https://github.com/simonrenoult/express-with-superpowers)
 
+Features
+---
+ * Preconfigured JSON logger
+ * Swagger support
+ * IDE integration (editorconfig) and linter (eslint + prettier + aribnb-base)
+ * Automated tests (end-to-end, unit, coverage, travis)
+ * [And more!](https://github.com/simonrenoult/express-with-superpowers#features)
+
+
 
 Usage
 ---
